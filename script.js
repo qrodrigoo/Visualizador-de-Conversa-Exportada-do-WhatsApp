@@ -67,4 +67,16 @@ document.getElementById("folder-input").addEventListener("change", async (event)
 
     container.appendChild(div);
   }
+
+  const input = document.getElementById("folder-input");
+  const fileCount = document.getElementById("file-count");
+
+  input.addEventListener("change", () => {
+    const total = input.files.length;
+    fileCount.style.display = "block"; // mostra
+    fileCount.textContent = total === 0
+      ? "Nenhum arquivo selecionado"
+      : `${total} arquivo${total > 1 ? "s" : ""} selecionado`;
+  });
 });
+

@@ -26,6 +26,8 @@ body {
 }
 
 .message {
+  display: inline-flex;
+  flex-direction: column;
   max-width: 70%;
   margin: 5px 0;
   padding: 10px;
@@ -37,6 +39,7 @@ body {
 .user {
   background-color: #dcf8c6;
   align-self: flex-end;
+  width: fit-content;
 }
 
 .other {
@@ -54,7 +57,51 @@ body {
   border-radius: 10px;
 }
 
+.message audio {
+  max-width: 100%;
+}
+
+.custom-file-label {
+  display: inline-block;
+  background-color: #25d366;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 1rem;
+  transition: background-color 0.3s;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.custom-file-label:hover {
+  background-color: #1ebc5c;
+}
+
+#file-count {
+  display: none;
+  margin-top: 5px;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.upload-area {
+  /* deixamos sem text-align aqui para manter à esquerda no PC */
+}
+
 @media (max-width: 600px) {
+  .custom-file-label {
+    display: block;
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  #file-count {
+    text-align: center;
+  }
+
   #app {
     padding: 10px;
   }
@@ -65,13 +112,13 @@ body {
   }
 
   #chat-container {
-    beight: 70vh;
+    height: 70vh;
     padding: 10px;
   }
 
   .message {
-    max-width: 100%;
-    font-size: 0.95rem;
+    padding: 8px;
+    font-size: 1rem;
   }
 
   .message img {
