@@ -78,5 +78,32 @@ document.getElementById("folder-input").addEventListener("change", async (event)
       ? "Nenhum arquivo selecionado"
       : `${total} arquivo${total > 1 ? "s" : ""} selecionado`;
   });
+
+  const modal = document.getElementById("image-modal");
+  const modalImg = document.getElementById("modal-img");
+  const closeBtn = document.querySelector(".close");
+
+  document.addEventListener("click", function (e) {
+    if (e.target.tagName === "IMG" && e.target.closest(".message")) {
+      modal.style.display = "block";
+      modalImg.src = e.target.src;
+    }
+  });
+
+  closeBtn.onclick = function () {
+    modal.style.display = "none";
+  };
+
+  window.onclick = function (event) {
+    if (event.target === modal) {
+      modal.style.display = "none";
+    }
+  };
+
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape") {
+      modal.style.display = "none";
+    }
+  });
 });
 
