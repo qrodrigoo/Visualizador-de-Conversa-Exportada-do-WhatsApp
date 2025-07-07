@@ -54,4 +54,28 @@ body {
   border-radius: 10px;
 }
 
+@media (max-width: 600px) {
+  #app {
+    padding: 10px;
+  }
 
+  h1 {
+    font-size: 1.2rem;
+    text-align: center;
+  }
+
+  #chat-container {
+    beight: 70vh;
+    padding: 10px;
+  }
+
+  .message {
+    max-width: 100%;
+    font-size: 0.95rem;
+  }
+
+  .message img {
+    max-width: 100%;
+    height: auto;
+  }
+}
