@@ -1,0 +1,35 @@
+🟢 Como usar o Visualizador de Conversas do WhatsApp
+
+Este site permite visualizar conversas exportadas do WhatsApp de forma organizada, com estilo de chat real (direita/esquerda), imagens, figurinhas e áudios.
+
+✅ Passos para usar:
+
+1. Exporte a conversa do WhatsApp:
+   - Vá na conversa > Mais > Exportar conversa
+   - Escolha "Incluir arquivos de mídia"
+   - O WhatsApp vai gerar uma pasta zip com arquivo .txt junto com as imagens, figurinhas e áudios (.opus)
+
+2. Extraia a pasta para um local fácil de achar
+
+3. Abra o site no navegador (Recomendado Google Chrome)
+
+4. Clique no botão "Selecionar Pasta da Conversa":
+   - Selecione a pasta extraída
+
+5. (Opcional) Use o filtro por data:
+   - Preencha os campos "De" e "Até"
+   - Clique em "Filtrar" para ver só as mensagens daquele período
+   - Caso queira filtrar um único dia, é só colocar o "De" e o "Até" na mesma data
+
+ℹ️ Funcionalidades:
+
+- 📅 Filtro por intervalo de datas
+- 🖼️ Visualização de imagens e figurinhas
+- 🎧 Player para mensagens de áudio (.opus)
+- 💬 Estilo visual parecido ao WhatsApp
+- ✅ Compatível com qualquer conversa (o código detecta automaticamente quem é quem)
+
+⚠️ Observações:
+
+- O navegador precisa suportar seleção de pastas (funciona bem no Google Chrome, Edge, etc.)
+- O site não envia nenhum dado para a internet. Tudo é processado localmente no seu navegador.

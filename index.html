@@ -10,11 +10,21 @@
 <body>
   <div id="app">
     <h1>📁 Visualizador de Conversa do WhatsApp</h1>
+
+    <div id="date-filters">
+      <label for="start-date">De:</label>
+      <input type="date" id="start-date">
+      <label for="end-date">Até:</label>
+      <input type="date" id="end-date">
+      <button id="apply-filter">Filtrar</button>
+    </div>
+
     <div class="upload-area">
       <label for="folder-input" class="custom-file-label">📂 Escolher arquivos</label>
       <input type="file" id="folder-input" webkitdirectory directory multiple hidden>
       <span id="file-count">Nenhum arquivo selecionado</span>
     </div>
+    
     <div id="chat-container"></div>
   </div>
   <script src="script.js"></script>

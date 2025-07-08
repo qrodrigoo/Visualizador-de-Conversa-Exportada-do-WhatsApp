@@ -14,6 +14,7 @@ document.getElementById("folder-input").addEventListener("change", async (event)
 
   const mediaMap = {};
   const participants = new Set();
+  const messages = [];
 
   for (const file of files) {
     mediaMap[file.name] = URL.createObjectURL(file);
@@ -21,9 +22,9 @@ document.getElementById("folder-input").addEventListener("change", async (event)
 
   // Primeiro passo: detectar os dois participantes
   for (const line of lines) {
-    const match = line.match(/^(\d{1,2}\/\d{1,2}\/\d{4}) (\d{1,2}:\d{2}) - (.*?): (.*)$/);
+    const match = line.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4}) (\d{1,2}:\d{2}) - (.*?): (.*)$/);
     if (match) {
-      const sender = match[3].trim();
+      const sender = match[5].trim();
       if (sender.toLowerCase() !== "mensagem apagada" && sender.toLowerCase() !== "null") {
         participants.add(sender);
         if (participants.size >= 2) break;
@@ -33,40 +34,55 @@ document.getElementById("folder-input").addEventListener("change", async (event)
 
   const [leftUser, rightUser] = [...participants];
 
-  // Agora renderiza a conversa
+  // Agora renderiza e armazena todas as mensagens
   for (const line of lines) {
-    const match = line.match(/^(\d{1,2}\/\d{1,2}\/\d{4}) (\d{1,2}:\d{2}) - (.*?): (.*)$/);
+    const match = line.match(/^(\d{2})\/(\d{2})\/(\d{4}) (\d{1,2}:\d{2}) - (.*?): (.*)$/);
     if (!match) continue;
 
-    const [, , , sender, messageRaw] = match;
+    const [_, day, month, year, time, sender, messageRaw] = match;
+    const fullDate = `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
     if (messageRaw.trim().toLowerCase() === "null") continue;
-
-    const div = document.createElement("div");
-    div.classList.add("message");
-
-    if (sender === rightUser) {
-      div.classList.add("user"); // direita
-    } else {
-      div.classList.add("other"); // esquerda
-    }
 
     const cleanMessage = messageRaw.replace(/\u200e/g, "").replace(/\(arquivo anexado\)/i, "").trim();
 
-    if (/\.(jpg|jpeg|png|gif|webp)$/i.test(cleanMessage) && mediaMap[cleanMessage]) {
-      const img = document.createElement("img");
-      img.src = mediaMap[cleanMessage];
-      div.appendChild(img);
-    } else if (/\.opus$/i.test(cleanMessage) && mediaMap[cleanMessage]) {
-      const audio = document.createElement("audio");
-      audio.controls = true;
-      audio.src = mediaMap[cleanMessage];
-      div.appendChild(audio);
-    } else {
-      div.innerText = `${sender}: ${messageRaw}`;
-    }
-
-    container.appendChild(div);
+    messages.push({ fullDate, sender, messageRaw, cleanMessage });
   }
+
+  const renderMessages = (startDate = null, endDate = null) => {
+    container.innerHTML = "";
+
+    messages.forEach(({ fullDate, sender, messageRaw, cleanMessage }) => {
+      if (startDate && fullDate < startDate) return;
+      if (endDate && fullDate > endDate) return;
+
+      const div = document.createElement("div");
+      div.classList.add("message");
+
+      if (sender === rightUser) {
+        div.classList.add("user"); // direita
+      } else {
+        div.classList.add("other"); // esquerda
+      }
+
+      if (/\.(jpg|jpeg|png|gif|webp)$/i.test(cleanMessage) && mediaMap[cleanMessage]) {
+        const img = document.createElement("img");
+        img.src = mediaMap[cleanMessage];
+        div.appendChild(img);
+      } else if (/\.opus$/i.test(cleanMessage) && mediaMap[cleanMessage]) {
+        const audio = document.createElement("audio");
+        audio.controls = true;
+        audio.src = mediaMap[cleanMessage];
+        div.appendChild(audio);
+      } else {
+        div.innerText = `${sender}: ${messageRaw}`;
+      }
+
+      container.appendChild(div);
+    });
+  };
+
+  // Exibe tudo inicialmente
+  renderMessages();
 
   const input = document.getElementById("folder-input");
   const fileCount = document.getElementById("file-count");
@@ -105,5 +121,15 @@ document.getElementById("folder-input").addEventListener("change", async (event)
       modal.style.display = "none";
     }
   });
-});
 
+  // FILTRO POR DATA
+  const startInput = document.getElementById("start-date");
+  const endInput = document.getElementById("end-date");
+  const filterBtn = document.getElementById("apply-filter");
+
+  filterBtn.addEventListener("click", () => {
+    const start = startInput.value || null;
+    const end = endInput.value || null;
+    renderMessages(start, end);
+  });
+});
